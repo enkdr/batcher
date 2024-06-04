@@ -24,7 +24,7 @@ type JobResult struct {
 
 // create worker to pass in id and channels with waitgroup for syncing
 // this is where we would use the batchProcessor
-func worker(id int, jobs <-chan Job, results chan<- JobResult, wg *sync.WaitGroup) {
+func worker(jobs <-chan Job, results chan<- JobResult, wg *sync.WaitGroup) {
 	// notify waitgroup when all jobs done
 	defer wg.Done()
 
@@ -53,7 +53,7 @@ func batcher(jobCount, workerCount int) {
 	wg.Add(workerCount)
 	// begin processing jobs and update JobResults column
 	for wcount := 0; wcount < workerCount; wcount++ {
-		go worker(wcount, jobs, results, &wg)
+		go worker(jobs, results, &wg)
 	}
 
 	// begin to collect results

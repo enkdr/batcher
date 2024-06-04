@@ -17,7 +17,7 @@ func TestBatcher(t *testing.T) {
 	wg.Add(workersTotal)
 	// start workers
 	for w := 0; w < workersTotal; w++ {
-		go worker(w, jobs, results, &wg)
+		go worker(jobs, results, &wg)
 	}
 
 	// collect our results in separate goroutine
